@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import BirdCard from 'features/birds/components/BirdCard/BirdCard';
 import type { Bird } from 'features/birds/types';
 
@@ -8,11 +9,20 @@ type BirdGridProps = {
 };
 
 const BirdGrid = ({ birds }: BirdGridProps) => {
+  const isEmpty = birds.length === 0;
+
   return (
-    <div className={styles.grid}>
-      {birds.map((bird) => (
-        <BirdCard key={bird.id} bird={bird} />
-      ))}
+    <div
+      className={classNames(styles.container, {
+        [styles.grid]: !isEmpty,
+        [styles.empty]: isEmpty,
+      })}
+    >
+      {isEmpty ? (
+        <p>No birds found</p>
+      ) : (
+        birds.map((bird) => <BirdCard key={bird.id} bird={bird} />)
+      )}
     </div>
   );
 };
