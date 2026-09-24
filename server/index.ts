@@ -1,39 +1,12 @@
 import { ApolloServer } from '@apollo/server';
-import { startStandaloneServer } from '@apollo/server/standalone';
+import { expressMiddleware } from '@as-integrations/express5';
+import cors from 'cors';
+import express from 'express';
 
-const typeDefs = `#graphql
-  type Bird {
-    id: ID!
-    commonName: String!
-    scientificName: String!
-    imageUrl: String!
-  }
+import { resolvers } from './graphql/resolvers.js';
+import { typeDefs } from './graphql/typeDefs.js';
 
-  type Query {
-    birds: [Bird!]!
-  }
-`;
-
-const birds = [
-  {
-    id: 1,
-    commonName: 'American Robin',
-    scientificName: 'Turdus migratorius',
-    imageUrl: 'https://placehold.co/400x300?text=American+Robin',
-  },
-  {
-    id: 2,
-    commonName: 'Bald Eagle',
-    scientificName: 'Haliaeetus leucocephalus',
-    imageUrl: 'https://placehold.co/400x300?text=Bald+Eagle',
-  },
-];
-
-const resolvers = {
-  Query: {
-    birds: () => birds,
-  },
-};
+const app = express();
 
 const server = new ApolloServer({
   typeDefs,
@@ -41,11 +14,13 @@ const server = new ApolloServer({
 });
 
 const startServer = async () => {
-  const { url } = await startStandaloneServer(server, {
-    listen: { port: 4000 },
-  });
+  await server.start();
 
-  console.log(`GraphQL server ready at ${url}`);
+  app.use('/graphql', cors(), express.json(), expressMiddleware(server));
+
+  app.listen(4000, () => {
+    console.log('GraphQL server ready at http://localhost:4000/graphql');
+  });
 };
 
 void startServer();
