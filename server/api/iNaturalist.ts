@@ -64,7 +64,7 @@ export const getBirds = async (): Promise<Bird[]> => {
         id: observation.id,
         commonName: taxon.preferred_common_name ?? taxon.name,
         scientificName: taxon.name,
-        imageUrl: photo.url,
+        imageUrl: photo.url.replace('/square.', '/medium.'),
       },
     ];
   });
