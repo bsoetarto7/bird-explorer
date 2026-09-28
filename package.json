@@ -17,6 +17,7 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@apollo/client": "^4.3.1",
     "@apollo/server": "^5.5.1",
     "@as-integrations/express5": "^1.1.2",
     "classnames": "^2.5.1",
@@ -25,7 +26,8 @@
     "graphql": "^16.14.2",
     "modern-normalize": "^3.0.1",
     "react": "^19.3.0",
-    "react-dom": "^19.3.0"
+    "react-dom": "^19.3.0",
+    "rxjs": "^7.8.2"
   },
   "devDependencies": {
     "@swc/core": "^1.16.2",
