@@ -1,10 +1,12 @@
 import { ApolloProvider } from '@apollo/client/react';
+import { Provider } from 'react-redux';
 import { createRoot } from 'react-dom/client';
 
 import 'modern-normalize/modern-normalize.css';
 
 import App from './App';
 import { apolloClient } from './graphql/client';
+import { store } from 'store/store';
 import './index.css';
 
 const rootElement = document.getElementById('root');
@@ -16,7 +18,9 @@ if (!rootElement) {
 const root = createRoot(rootElement);
 
 root.render(
-  <ApolloProvider client={apolloClient}>
-    <App />
-  </ApolloProvider>,
+  <Provider store={store}>
+    <ApolloProvider client={apolloClient}>
+      <App />
+    </ApolloProvider>
+  </Provider>,
 );

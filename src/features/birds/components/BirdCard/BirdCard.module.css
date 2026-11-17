@@ -1,26 +1,126 @@
 .card {
   overflow: hidden;
-  border: 1px solid #ddd;
-  border-radius: 0.75rem;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 8%);
+}
+
+.imageContainer {
+  position: relative;
+  overflow: hidden;
 }
 
 .image {
   display: block;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  height: 220px;
   object-fit: cover;
+  transition: transform 0.35s ease;
 }
 
-.content {
-  padding: 1rem;
+/* Image zoom when hovering over the entire card */
+.card:hover .image {
+  transform: scale(1.08);
 }
 
-.name {
-  margin: 0;
-  font-size: 1.25rem;
+/* Favourite button */
+.favouriteButton {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 36px;
+  height: 36px;
+  padding: 0;
+
+  border: none;
+  border-radius: 50%;
+  background: rgb(0 0 0 / 35%);
+  cursor: pointer;
+
+  opacity: 0;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    background-color 0.2s ease;
+}
+
+/* Reveal heart on card hover or keyboard focus */
+.card:hover .favouriteButton,
+.favouriteButton:focus-visible,
+.favouriteButton.favourited {
+  opacity: 1;
+}
+
+.favouriteButton:hover {
+  background: rgb(0 0 0 / 55%);
+  transform: scale(1.1);
+}
+
+.favouriteButton:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 2px;
+  opacity: 1;
+}
+
+/* Heart icon: white outline by default */
+.heart {
+  display: block;
+  width: 20px;
+  height: 20px;
+  background: white;
+
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z' fill='none' stroke='black' stroke-width='2'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+}
+
+/* Filled white heart when favourited */
+.heart.active {
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z' fill='black'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+}
+
+/* Bird information */
+.birdInfo {
+  padding: 16px;
+}
+
+.commonName {
+  margin: 0 0 6px;
+  font-size: 1.125rem;
+  font-weight: 600;
 }
 
 .scientificName {
-  margin: 0.25rem 0 0;
+  margin: 0;
   color: #666;
+  font-size: 0.875rem;
+}
+
+/* Always show the heart on touch devices */
+@media (hover: none) {
+  .favouriteButton {
+    opacity: 1;
+  }
+  .card:hover .image {
+    transform: scale(1.08);
+  }
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .image,
+  .favouriteButton {
+    transition: none;
+  }
+
+  .card:hover .image,
+  .favouriteButton:hover {
+    transform: none;
+  }
 }
