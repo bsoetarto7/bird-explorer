@@ -1,11 +1,12 @@
 import styles from './BirdSearch.module.css';
 
 type BirdSearchProps = {
+  disabled?: boolean;
   value: string;
   onChange: (value: string) => void;
 };
 
-const BirdSearch = ({ value, onChange }: BirdSearchProps) => {
+const BirdSearch = ({ disabled, value, onChange }: BirdSearchProps) => {
   return (
     <div className={styles.search}>
       <label className={styles.label} htmlFor="bird-search">
@@ -18,7 +19,8 @@ const BirdSearch = ({ value, onChange }: BirdSearchProps) => {
         type="search"
         placeholder="Search by name..."
         value={value}
-        onChange={(event) => onChange(event.target.value)}
+        disabled={disabled}
+        onChange={(event) => !disabled && onChange(event.target.value)}
       />
     </div>
   );
